@@ -1,0 +1,27 @@
+@import 'base/reset';
+@import 'vars/index.scss';
+
+html {
+  font-size: 1.6em;
+  height: 100%;
+}
+
+body {
+  background-color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.2em;
+  margin: 0;
+}
+
+b {
+  font-weight: 600;
+}
+
+i {
+  font-style: italic;
+}
+
+ul {
+  list-style-type: none; 
+}
