@@ -31,16 +31,22 @@ function saveInputValue(inputValue: string, inputName: InputLabels) {
 const ctx: any = useContext()
 const { serviceLoader } = ctx
 const { serviceApi } = ctx
+const { serviceAllert } = ctx
 const emit = defineEmits<{
   (e: 'distance', distanceValue: string): void
 }>()
 const distance: Ref<string> = ref('')
 
 function submit() {
-  errors.value = []
+  validationErrors.value = []
   emit('distance', '')
   checkForm()
-  if(errors.value.length > 0) return
+
+  if(validationErrors.value.length > 0) {
+    serviceAllert.open(validationErrors.value)
+
+    return
+  }
   serviceLoader.show()
   const params: LocationParams = {
     origins: location.value,
@@ -66,19 +72,19 @@ function isInputValid(value: string) {
   return regex.test(value)
 }
 
-const errors: Ref<string[]> = ref([])
+const validationErrors: Ref<string[]> = ref([])
 
 function checkForm() {
   if(!location.value){
-    errors.value.push('Location required')
+    validationErrors.value.push('Location required')
   } else if (!isInputValid(location.value)){
-    errors.value.push('Valid location required')
+    validationErrors.value.push('Valid location required')
   }
 
   if(!destination.value) {
-    errors.value.push('Destination required')
+    validationErrors.value.push('Destination required')
   } else if (!isInputValid(destination.value)){
-    errors.value.push('Valid location required')
+    validationErrors.value.push('Valid destination required')
   }
 }
 </script>
@@ -88,13 +94,16 @@ function checkForm() {
     <form
       class="form-base__form"
     >
-      <InputBase
-        v-for="(input, index) in inputs"
-        :key="index"
-        :label="input.label"
-        :placeholder="input.placeholder"
-        @saveInputValue="saveInputValue"
-      />
+      <div class="form-base__inputs">
+        <InputBase
+          v-for="(input, index) in inputs"
+          :key="index"
+          :label="input.label"
+          type="text"
+          :placeholder="input.placeholder"
+          @saveInputValue="saveInputValue"
+        />
+      </div>
 
       <ButtonBase
         type="button"
@@ -102,7 +111,6 @@ function checkForm() {
         @click="submit"
       />
     </form>
-    {{ errors }}
   </div>
 </template>
 
@@ -116,6 +124,12 @@ function checkForm() {
   align-content: center;
 
   &__form {
+    display: flex;
+    flex-direction: column;
+      align-items: center;
+  align-content: center;
+  }
+  &__inputs {
     display: flex;
     flex-direction: row;
   }

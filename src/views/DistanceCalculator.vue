@@ -3,6 +3,7 @@ import { Ref, ref } from 'vue'
 import { useContext } from '@/composables/context'
 import FormBase from '@/components/ui/FormBase.vue'
 import TheLoader from '@/components/TheLoader.vue'
+import TheAllert from '@/components/TheAllert.vue'
 import ImageMap from '@/assets/ImageMap.vue'
 import FormInput from '@/types/FormInput'
 import InputLabels from '@/types/InputLabels'
@@ -46,6 +47,7 @@ const { serviceLoader } = ctx
     <p>
       <ImageMap class="map" />
     </p>
+    <TheAllert class="main-allert"/>
   </div>
 </template>
 
@@ -53,6 +55,15 @@ const { serviceLoader } = ctx
 <style scoped lang="scss">
 .main {
   width: 800px;
+  position: relative;
+  height:100%;
+  margin-top:30px;
+  &-allert {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+
+  }
 }
 .map {
   width: 500px;
