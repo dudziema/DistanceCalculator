@@ -1,14 +1,14 @@
 import { ServiceApi } from './services/ServiceApi'
 import { ServiceLoader } from './services/ServiceLoader'
-import { ServiceAllert } from './services/ServiceAllert'
+import { ServiceAlert } from './services/ServiceAlert'
 export class Context {
   serviceApi: ServiceApi
   serviceLoader: ServiceLoader
-  serviceAllert: ServiceAllert
+  serviceAlert: ServiceAlert
 
   constructor() {
     this.serviceApi = new ServiceApi()
     this.serviceLoader = new ServiceLoader()
-    this.serviceAllert = new ServiceAllert()
+    this.serviceAlert = new ServiceAlert()
   }
 }

@@ -1,6 +1,6 @@
 import { shallowRef, ref, computed } from 'vue'
 
-export class ServiceAllert {
+export class ServiceAlert {
   private _config: any
   private _isVisible: any
   constructor() {
@@ -19,7 +19,7 @@ export class ServiceAllert {
     this._config.value = {}
   }
 
-  get allertConfig() {
+  get alertConfig() {
     return computed(() => this._config.value)
   }
 

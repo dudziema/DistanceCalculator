@@ -1,10 +1,8 @@
 <script lang="ts" setup>
 import { Ref, ref } from 'vue'
 import { useContext } from '@/composables/context'
-
 import InputBase from '@/components/ui/InputBase.vue'
 import ButtonBase from '@/components/ui/ButtonBase.vue'
-
 import LocationParams from '@/types/LocationParams'
 import FormInput from '@/types/FormInput'
 import InputLabels from '@/types/InputLabels'
@@ -15,8 +13,14 @@ interface Props {
 
 const { inputs } = defineProps<Props>()
 
+const ctx: any = useContext()
+const { serviceLoader } = ctx
+const { serviceApi } = ctx
+const { serviceAlert } = ctx
+
 const location: Ref<string> = ref('')
 const destination: Ref<string> = ref('')
+const distance: Ref<string> = ref('')
 
 function saveInputValue(inputValue: string, inputName: InputLabels) {
   switch (inputName) {
@@ -28,41 +32,43 @@ function saveInputValue(inputValue: string, inputName: InputLabels) {
     break
   }
 }
-const ctx: any = useContext()
-const { serviceLoader } = ctx
-const { serviceApi } = ctx
-const { serviceAllert } = ctx
-const emit = defineEmits<{
-  (e: 'distance', distanceValue: string): void
-}>()
-const distance: Ref<string> = ref('')
 
-function submit() {
-  validationErrors.value = []
-  emit('distance', '')
-  checkForm()
-
-  if(validationErrors.value.length > 0) {
-    serviceAllert.open(validationErrors.value)
-
-    return
-  }
-  serviceLoader.show()
-  const params: LocationParams = {
+const params = () => {
+  return {
     origins: location.value,
     destinations: destination.value,
     key: process.env.VUE_APP_API_KEY,
-  }
-  serviceApi
-    .get(params)
-    .then((data: any) => {
-      distance.value = data.data.rows[0].elements[0].distance.text
-      emit('distance', distance.value)
+  } as LocationParams
+}
+
+const emit = defineEmits<{
+  (e: 'distance', distanceValue: string): void
+}>()
+
+function submit() {
+  emit('distance', '')
+  validationErrors.value = []
+
+  checkForm()
+  if(validationErrors.value.length > 0) return
+
+  serviceLoader.show()
+  serviceApi.get(params())
+    .then(({ data }: any) => {
+      let distanceValue = data.rows[0].elements[0]
+      
+      if(distanceValue.distance) {
+        distance.value = distanceValue.distance.text
+        emit('distance', distance.value)
+      } else {
+        serviceAlert.open(['Distance can not be calculated for this locations.'])
+      }
+
       serviceLoader.hide()
     })
     .catch((e: any) => {
-      console.log(e)
       serviceLoader.hide()
+      serviceAlert.open(['Something went wrong. Please, try again later'])
     })
 }
 
@@ -86,20 +92,22 @@ function checkForm() {
   } else if (!isInputValid(destination.value)){
     validationErrors.value.push('Valid destination required')
   }
+
+  if(validationErrors.value.length > 0) {
+    serviceAlert.open(validationErrors.value)
+  }
 }
 </script>
 
 <template>
   <div class="form-base">
-    <form
-      class="form-base__form"
-    >
+    <form class="form-base__form">
       <div class="form-base__inputs">
         <InputBase
           v-for="(input, index) in inputs"
           :key="index"
-          :label="input.label"
           type="text"
+          :label="input.label"
           :placeholder="input.placeholder"
           @saveInputValue="saveInputValue"
         />
@@ -126,9 +134,10 @@ function checkForm() {
   &__form {
     display: flex;
     flex-direction: column;
-      align-items: center;
-  align-content: center;
+    align-items: center;
+    align-content: center;
   }
+
   &__inputs {
     display: flex;
     flex-direction: row;

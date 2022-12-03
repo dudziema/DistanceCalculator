@@ -3,10 +3,13 @@ import { Ref, ref } from 'vue'
 import { useContext } from '@/composables/context'
 import FormBase from '@/components/ui/FormBase.vue'
 import TheLoader from '@/components/TheLoader.vue'
-import TheAllert from '@/components/TheAllert.vue'
+import TheAlert from '@/components/TheAlert.vue'
 import ImageMap from '@/assets/ImageMap.vue'
 import FormInput from '@/types/FormInput'
 import InputLabels from '@/types/InputLabels'
+
+const ctx: any = useContext()
+const { serviceLoader } = ctx
 
 const inputs: FormInput[] = [
   {
@@ -23,56 +26,61 @@ const distance: Ref<string> = ref('')
 function displayDistance(resultDistance: string) {
   distance.value = resultDistance
 }
-
-const ctx: any = useContext()
-const { serviceLoader } = ctx
 </script>
 
 <template>
-  <div class="main">
-    <h2 class="form-base__title">Distance calculator</h2>
-    <p>
+  <div class="distance-calculator">
+    <h2 class="distance-calculator__title">Distance calculator</h2>
+
+    <p class="distance-calculator__info">
       This app calculates for you distance between two locations. Fill below
       inputs with the longitude and latitude in below form and click submit
       button to see the results.
     </p>
+
     <FormBase
       :inputs="inputs"
       @distance="displayDistance"
     />
-    <TheLoader v-if="serviceLoader.isVisible.value" />
-    <span v-if="distance">
-      The distance between is <b>{{ distance }}</b>
-    </span>
-    <p>
-      <ImageMap class="map" />
-    </p>
-    <TheAllert class="main-allert"/>
+    <div>
+
+      <TheLoader v-if="serviceLoader.isVisible.value" />
+
+      <p v-if="distance">
+        The distance between is <b>{{ distance }}</b>
+      </p>
+    </div>
+    
+    <ImageMap class="distance-calculator__map" />
+    
+    <TheAlert class="distance-calculator__alert"/>
   </div>
 </template>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.main {
-  width: 800px;
-  position: relative;
+.distance-calculator {
   height:100%;
+  width: 800px;
   margin-top:30px;
-  &-allert {
-    position: absolute;
-    bottom: 15px;
-    width: 100%;
 
+  &__title {
+    font-weight: 600;
+    font-size: 2.4em;
   }
-}
-.map {
-  width: 500px;
-}
-h2 {
-  font-weight: 600;
-  font-size: 2.4em;
-}
-p {
-  font-size: 14px;
+
+  &__info {
+    font-size: 14px;
+  }
+
+  &__map {
+    width: 500px;
+  }
+
+  &__alert {
+    position: absolute;
+    bottom: 16px;
+    width: 800px;
+  }
 }
 </style>

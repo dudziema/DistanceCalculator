@@ -1,40 +1,41 @@
 <script lang="ts" setup>
-import {ref, onMounted, computed, watchEffect} from 'vue'
-import ImageError from '@/assets/ImageError.vue'
+import { computed } from 'vue'
 import { useContext } from '@/composables/context'
+import ImageError from '@/assets/ImageError.vue'
 
 const ctx: any = useContext()
-const { serviceAllert } = ctx
-const { allertConfig } = serviceAllert
+const { serviceAlert } = ctx
+const { alertConfig } = serviceAlert
 
-const isVisible = computed(() => serviceAllert.isVisible.value)
+const isVisible = computed(() => serviceAlert.isVisible.value)
 </script>
 
 <template>
   <div
     v-if="isVisible"
-    class="allert"
+    class="alert"
   >
     <div
-      v-for="(validationError, index) in allertConfig"
+      v-for="(validationError, index) in alertConfig"
       :key="index"
-      class="allert-error"
+      class="alert__error"
     >
-      <ImageError class="allert-img" />
-      <p>{{validationError}}</p>
-    </div><br/>
-    <div class="allert-border" />
+      <ImageError class="alert__error-img" />
+
+      <p>{{ validationError }}</p>
+    </div>
+
+    <div class="alert__border" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.allert {
+.alert {
   display: flex;
   flex-direction: column;
   align-content: flex-start;
   align-items: flex-start;
-  font-size: 16px;
-  margin-bottom: 16px;
+  font-size: 14px;
   padding: 8px;
   position: relative;
   transition: .3s cubic-bezier(.25,.8,.5,1);
@@ -44,34 +45,34 @@ const isVisible = computed(() => serviceAllert.isVisible.value)
   box-shadow: 0 4px 15px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 4px 15px 0 rgba(0,0,0,.12);
   border-radius: 4px;
 
-  &-error {
+  &__error {
     display: flex;
     flex-direction: column;
-    font-weight:600;
-    width:100%;
+    font-weight: 600;
+    width: 100%;
+    height: 40px;
     flex-direction: row;
     align-items: center;
     align-content: center;
     justify-content: flex-start;
 
+    &-img {
+      width: 30px;
+      margin: 10px;
+    }
   }
 
-  &-border {
+  &__border {
     background-color: #ff5252;
     border-color: #ff5252;
     border-width: 4px;
     content: "";
     position: absolute;
     right: 0;
-    top:0;
+    top: 0;
     bottom: 0;
     width: 8px;
     border-radius: inherit;
-  }
-
-  &-img {
-    width: 40px;
-    margin:10px;
   }
 }
 </style>
