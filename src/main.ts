@@ -1,4 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import { createContext } from '@/composables/context'
 
-createApp(App).mount('#app')
+import '@/assets/stylesheets/main.scss'
+
+(() => {
+  const app = createApp(App)
+  const { injectionKey, context } = createContext()
+
+  app.provide(injectionKey, context)
+  app.mount('#app')
+})()
