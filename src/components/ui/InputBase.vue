@@ -3,20 +3,20 @@ import { Ref, ref } from 'vue'
 
 interface Props {
   label: string
-  placeholder: ''
+  placeholder: string
+  type: string
 }
 
-const { label, placeholder } = defineProps<Props>()
+const { label, placeholder, type='text' } = defineProps<Props>()
 const emit = defineEmits(['saveInputValue'])
 const inputValue: Ref<string> = ref('')
-
 </script>
 
 <template>
   <div class="input-base">
     <input
       v-model="inputValue"
-      type="text"
+      :type="type"
       name="input"
       :placeholder="placeholder"
       class="input-base__input"
