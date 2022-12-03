@@ -57,25 +57,26 @@ function submit() {
     .then(({ data }: any) => {
       let distanceValue = data.rows[0].elements[0]
       
+      // Sometimes API doesn't return distance for specific valid coordinates
       if(distanceValue.distance) {
         distance.value = distanceValue.distance.text
         emit('distance', distance.value)
       } else {
         serviceAlert.open(['Distance can not be calculated for this locations.'])
       }
-
-      serviceLoader.hide()
     })
-    .catch((e: any) => {
-      serviceLoader.hide()
+    .catch(() => {
       serviceAlert.open(['Something went wrong. Please, try again later'])
+    })
+    .finally(()=> {
+      serviceLoader.hide()
     })
 }
 
-function isInputValid(value: string) {
+function areCoordinatesValid(coordinates: string) {
   let regex = /(?<lat>^[-+]?(?:[1-8]?\d(?:\.\d+)?|90(?:\.0+)?))\s*,\s*(?<lng>[-+]?(?:180(?:\.0+)?|(?:1[0-7]\d|[1-9]?\d)(?:\.\d+)?))$/
   
-  return regex.test(value)
+  return regex.test(coordinates)
 }
 
 const validationErrors: Ref<string[]> = ref([])
@@ -83,13 +84,13 @@ const validationErrors: Ref<string[]> = ref([])
 function checkForm() {
   if(!location.value){
     validationErrors.value.push('Location required')
-  } else if (!isInputValid(location.value)){
+  } else if (!areCoordinatesValid(location.value)){
     validationErrors.value.push('Valid location required')
   }
 
   if(!destination.value) {
     validationErrors.value.push('Destination required')
-  } else if (!isInputValid(destination.value)){
+  } else if (!areCoordinatesValid(destination.value)){
     validationErrors.value.push('Valid destination required')
   }
 
@@ -109,13 +110,13 @@ function checkForm() {
           type="text"
           :label="input.label"
           :placeholder="input.placeholder"
-          @saveInputValue="saveInputValue"
+          @save-input-value="saveInputValue"
         />
       </div>
 
       <ButtonBase
         type="button"
-        buttonName="submit"
+        button-name="submit"
         @click="submit"
       />
     </form>

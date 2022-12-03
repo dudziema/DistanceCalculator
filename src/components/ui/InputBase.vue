@@ -36,33 +36,33 @@ const inputValue: Ref<string> = ref('')
 .input-base {
   position: relative;
   width: 350px;
-  margin: 20px;
+  margin: $spacing-vertical-big $spacing-horizontal-big;
 
   &__input {
-    padding: 10px;
     border: none;
     border-radius: 4px;
+    outline: 2px solid $color-border-default;
     font: inherit;
-    color: black;
+    font-size: $font-size-large;
+    color: $color-text-default;
     background-color: transparent;
-    outline: 2px solid black;
-    font-size: 0.8em;
+    padding: $spacing-vertical-default $spacing-horizontal-default;
     width: 300px;
 
     &::placeholder {
-      color: rgb(166, 166, 166);
-      font-size: 0.8em;
+      color: $color-text-placeholder;
+      font-size: $font-size-large;
     }
   }
 
   &__label {
     position: absolute;
-    font-size: 16px;
+    font-size: $font-size-base;
     text-transform: capitalize;
     top: 0;
     left: 0;
     color: black;
-    transform: translate(24px, -14px) scale(0.8);
+    transform: translate(24px, -10px) scale(0.8);
     background-color: white;
     padding-inline: 5px;
   }

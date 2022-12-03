@@ -1,10 +1,10 @@
-import { Ref, ref, computed } from 'vue'
+import { ShallowRef, shallowRef, computed } from 'vue'
 
 export class ServiceLoader {
-  private _isVisible: Ref<boolean>
+  private _isVisible: ShallowRef<boolean>
 
   constructor() {
-    this._isVisible = ref(false)
+    this._isVisible = shallowRef(false)
   }
 
   show() {

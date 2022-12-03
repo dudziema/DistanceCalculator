@@ -1,11 +1,11 @@
-import { shallowRef, ref, computed } from 'vue'
+import { shallowRef, ShallowRef, ref, Ref, computed } from 'vue'
 
 export class ServiceAlert {
-  private _config: any
-  private _isVisible: any
+  private _config: ShallowRef<string[]>
+  private _isVisible: ShallowRef<boolean>
   constructor() {
     this._config = shallowRef([])
-    this._isVisible = ref(false)
+    this._isVisible = shallowRef(false)
   }
 
   open(config: string[]) {
@@ -16,7 +16,7 @@ export class ServiceAlert {
 
   close() {
     this._isVisible.value = false
-    this._config.value = {}
+    this._config.value = []
   }
 
   get alertConfig() {

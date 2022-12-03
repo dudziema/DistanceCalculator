@@ -3,5 +3,5 @@ import DistanceCalculator from './views/DistanceCalculator.vue'
 </script>
 
 <template>
-  <DistanceCalculator  />
+  <DistanceCalculator />
 </template>

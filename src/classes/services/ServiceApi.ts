@@ -1,4 +1,5 @@
 import axios from 'axios'
+import LocationParams from '@/types/LocationParams'
 
 const apiClient = axios.create({})
 
@@ -9,7 +10,7 @@ export class ServiceApi {
     this.endpoint = 'https://api.distancematrix.ai/maps/api/distancematrix/json'
   }
 
-  get(params: any) {
+  get(params: LocationParams) {
     return apiClient.get(this.endpoint, { params })
   }
 }

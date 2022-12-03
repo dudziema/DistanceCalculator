@@ -23,8 +23,8 @@ const emit = defineEmits(['submit'])
   text-transform: capitalize;
   margin: 20px;
   padding: 8px 16px;
-  outline: 2px solid black;
+  outline: 2px solid $color-border-default;
   border-radius: 4px;
-  font-size: 0.8rem;
+  font-size: $font-size-large;
 }
 </style>

@@ -30,7 +30,9 @@ function displayDistance(resultDistance: string) {
 
 <template>
   <div class="distance-calculator">
-    <h2 class="distance-calculator__title">Distance calculator</h2>
+    <h2 class="distance-calculator__title">
+      Distance calculator
+    </h2>
 
     <p class="distance-calculator__info">
       This app calculates for you distance between two locations. Fill below
@@ -43,34 +45,40 @@ function displayDistance(resultDistance: string) {
       @distance="displayDistance"
     />
     <div>
-
       <TheLoader v-if="serviceLoader.isVisible.value" />
 
-      <p v-if="distance">
-        The distance between is <b>{{ distance }}</b>
+      <p
+        v-if="distance"
+        class="distance-calculator__result"
+      >
+        The distance is equal <b>{{ distance }}</b>
       </p>
     </div>
     
     <ImageMap class="distance-calculator__map" />
     
-    <TheAlert class="distance-calculator__alert"/>
+    <TheAlert class="distance-calculator__alert" />
   </div>
 </template>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .distance-calculator {
-  height:100%;
+  height: 100%;
   width: 800px;
-  margin-top:30px;
+  margin-top: $spacing-vertical-big;
 
   &__title {
-    font-weight: 600;
-    font-size: 2.4em;
+    font-weight: $font-weight-semi-bold;
+    font-size: $font-size-title;
   }
 
   &__info {
-    font-size: 14px;
+    font-size: $font-size-base;
+  }
+  &__result {
+    font-size: calc(1.5 * $font-size-large);
+    margin: $spacing-vertical-default 0;
   }
 
   &__map {
@@ -79,7 +87,7 @@ function displayDistance(resultDistance: string) {
 
   &__alert {
     position: absolute;
-    bottom: 16px;
+    bottom: $spacing-vertical-default;
     width: 800px;
   }
 }
