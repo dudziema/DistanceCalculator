@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import { Ref, ref } from 'vue'
+
 interface Props {
   label: string
+  placeholder: ''
 }
 
-const { label } = defineProps<Props>()
-const emit = defineEmits(['setInputValue'])
+const { label, placeholder } = defineProps<Props>()
+const emit = defineEmits(['saveInputValue'])
 const inputValue: Ref<string> = ref('')
 
 </script>
@@ -16,9 +18,11 @@ const inputValue: Ref<string> = ref('')
       v-model="inputValue"
       type="text"
       name="input"
+      :placeholder="placeholder"
       class="input-base__input"
-      @keyup.prevent="emit('setInputValue', inputValue, label)"
+      @keyup.prevent="emit('saveInputValue', inputValue, label)"
     />
+
     <label
       for="input"
       class="input-base__label"
@@ -31,7 +35,7 @@ const inputValue: Ref<string> = ref('')
 <style lang="scss" scoped>
 .input-base {
   position: relative;
-  width: 200px;
+  width: 350px;
   margin: 20px;
 
   &__input {
@@ -42,14 +46,23 @@ const inputValue: Ref<string> = ref('')
     color: black;
     background-color: transparent;
     outline: 2px solid black;
+    font-size: 0.8em;
+    width: 300px;
+
+    &::placeholder {
+      color: rgb(166, 166, 166);
+      font-size: 0.8em;
+    }
   }
 
   &__label {
     position: absolute;
+    font-size: 16px;
+    text-transform: capitalize;
     top: 0;
     left: 0;
     color: black;
-    transform: translate(10px, -14px) scale(0.8);
+    transform: translate(24px, -14px) scale(0.8);
     background-color: white;
     padding-inline: 5px;
   }
