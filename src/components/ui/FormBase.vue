@@ -1,19 +1,24 @@
 <script lang="ts" setup>
 import { Ref, ref } from 'vue'
 import { useContext } from '@/composables/context'
+
 import InputBase from '@/components/ui/InputBase.vue'
+import ButtonBase from '@/components/ui/ButtonBase.vue'
+
 import LocationParams from '@/types/LocationParams'
 import FormInput from '@/types/FormInput'
 import InputLabels from '@/types/InputLabels'
 
 interface Props {
-  formTittle: string
+  inputs: FormInput[]
 }
 
-const { formTittle } = defineProps<Props>()
+const { inputs } = defineProps<Props>()
 
+const ctx: any = useContext()
 const location: Ref<string> = ref('')
 const destination: Ref<string> = ref('')
+const distance: Ref<string> = ref('')
 
 function saveInputValue(inputValue: string, inputName: InputLabels) {
   switch (inputName) {
@@ -25,9 +30,6 @@ function saveInputValue(inputValue: string, inputName: InputLabels) {
     break
   }
 }
-
-const distance = ref()
-const ctx: any = useContext()
 
 function submit() {
   const params: LocationParams = {
@@ -42,22 +44,10 @@ function submit() {
     })
     .catch((e: any) => console.log(e))
 }
-
-const inputs: FormInput[] = [
-  { label: InputLabels.LOCATION, placeholder: '51.4822656,-0.1933769' },
-  { label: InputLabels.DESTINATION, placeholder: '51.4994794,-0.1269979' },
-]
 </script>
 
 <template>
   <div class="form-base">
-    <h2 class="form-base__title">{{ formTittle }}</h2>
-    <p>
-      This app calculates for you distance between two locations. Fill below
-      inputs with the longitude and latitude in below form and click submit
-      button to see the results.
-    </p>
-
     <form class="form-base__form">
       <InputBase
         v-for="(input, index) in inputs"
@@ -68,7 +58,11 @@ const inputs: FormInput[] = [
       />
     </form>
 
-    <button @click="submit">Submit</button>
+    <ButtonBase
+      type="submit"
+      buttonName="submit"
+      @submit="submit"
+    />
 
     {{ distance }}
   </div>
@@ -82,17 +76,10 @@ const inputs: FormInput[] = [
   flex-direction: column;
   align-items: center;
   align-content: center;
-}
 
-.form-base__form {
-  display: flex;
-  flex-direction: row;
-}
-h2 {
-  font-weight: 600;
-  font-size: 2.4em;
-}
-p {
-  font-size: 14px;
+  &__form {
+    display: flex;
+    flex-direction: row;
+  }
 }
 </style>
