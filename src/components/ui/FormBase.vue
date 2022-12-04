@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Ref, ref } from 'vue'
+import { ShallowRef, shallowRef } from 'vue'
 import { useContext } from '@/composables/context'
 import InputBase from '@/components/ui/InputBase.vue'
 import ButtonBase from '@/components/ui/ButtonBase.vue'
@@ -18,9 +18,9 @@ const { serviceLoader } = ctx
 const { serviceApi } = ctx
 const { serviceAlert } = ctx
 
-const location: Ref<string> = ref('')
-const destination: Ref<string> = ref('')
-const distance: Ref<string> = ref('')
+const location: ShallowRef<string> = shallowRef('')
+const destination: ShallowRef<string> = shallowRef('')
+const distance: ShallowRef<string> = shallowRef('')
 
 function saveInputValue(inputValue: string, inputName: InputLabels) {
   switch (inputName) {
@@ -79,7 +79,7 @@ function areCoordinatesValid(coordinates: string) {
   return regex.test(coordinates)
 }
 
-const validationErrors: Ref<string[]> = ref([])
+const validationErrors: ShallowRef<string[]> = shallowRef([])
 
 function checkForm() {
   if(!location.value){

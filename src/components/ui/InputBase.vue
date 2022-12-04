@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Ref, ref } from 'vue'
+import { ShallowRef, shallowRef } from 'vue'
 
 interface Props {
   label: string
@@ -9,7 +9,7 @@ interface Props {
 
 const { label, placeholder, type='text' } = defineProps<Props>()
 const emit = defineEmits(['saveInputValue'])
-const inputValue: Ref<string> = ref('')
+const inputValue: ShallowRef<string> = shallowRef('')
 </script>
 
 <template>

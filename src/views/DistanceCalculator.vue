@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Ref, ref } from 'vue'
+import { ShallowRef, shallowRef } from 'vue'
 import { useContext } from '@/composables/context'
 import FormBase from '@/components/ui/FormBase.vue'
 import TheLoader from '@/components/TheLoader.vue'
@@ -21,7 +21,7 @@ const inputs: FormInput[] = [
     placeholder: '51.4994794,-0.1269979',
   },
 ]
-const distance: Ref<string> = ref('')
+const distance: ShallowRef<string> = shallowRef('')
 
 function displayDistance(resultDistance: string) {
   distance.value = resultDistance

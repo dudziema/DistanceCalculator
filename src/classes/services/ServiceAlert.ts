@@ -1,4 +1,4 @@
-import { shallowRef, ShallowRef, ref, Ref, computed } from 'vue'
+import { shallowRef, ShallowRef, computed } from 'vue'
 
 export class ServiceAlert {
   private _config: ShallowRef<string[]>
