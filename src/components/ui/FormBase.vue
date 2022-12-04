@@ -125,7 +125,6 @@ function checkForm() {
 
 <style lang="scss" scoped>
 .form-base {
-  width: 800px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -142,6 +141,10 @@ function checkForm() {
   &__inputs {
     display: flex;
     flex-direction: row;
+
+    @include devices(tablet) {
+      flex-direction: column;
+    }
   }
 }
 </style>

@@ -51,7 +51,10 @@ function displayDistance(resultDistance: string) {
         v-if="distance"
         class="distance-calculator__result"
       >
-        The distance is equal <b>{{ distance }}</b>
+        The distance is equal
+        <b class="distance-calculator__result-distance">
+          {{ distance }}
+        </b>
       </p>
     </div>
     
@@ -65,30 +68,68 @@ function displayDistance(resultDistance: string) {
 <style scoped lang="scss">
 .distance-calculator {
   height: 100%;
-  width: 800px;
+  width:100%;
+  max-width: 800px;
   margin-top: $spacing-vertical-big;
+  
+  @include devices(tablet) {
+    max-width: 450px;
+  }
+
+  @include devices(mobile) {
+    max-width: 300px;
+  }
 
   &__title {
     font-weight: $font-weight-semi-bold;
     font-size: $font-size-title;
+
+    @include devices(tablet) {
+      font-size: calc(2 * $font-size-large);
+    }
+    
+    @include devices(mobile) {
+      font-size: calc(1.5 * $font-size-large);
+      margin-bottom: $spacing-vertical-small;
+    }
   }
 
   &__info {
     font-size: $font-size-base;
+    
+    @include devices(mobile) {
+      margin-bottom: calc(2 * $spacing-vertical-default);
+    }
   }
   &__result {
     font-size: calc(1.5 * $font-size-large);
     margin: $spacing-vertical-default 0;
+
+    &-distance {
+      font-weight: $font-weight-semi-bold;
+    }
   }
 
   &__map {
     width: 500px;
+    
+    @include devices(mobile) {
+      max-width: 300px;
+    }
   }
 
   &__alert {
     position: absolute;
     bottom: $spacing-vertical-default;
     width: 800px;
+    
+    @include devices(tablet) {
+      max-width: 400px;
+    }
+    @include devices(mobile) {
+      max-width: 300px;
+      bottom: 0;
+    }
   }
 }
 </style>

@@ -1,8 +1,12 @@
 @import 'base/reset';
 @import 'vars/index';
+@import 'mixins/devices';
 
 html {
   font-size: $font-size-base;
+}
+html, body {
+  margin: 0;
   height: 100%;
 }
 
@@ -22,9 +26,4 @@ body {
   align-items: center;
   justify-content: flex-start;
   align-content: center;
-  height: 100vh;
-}
-
-b {
-  font-weight: $font-weight-semi-bold;
 }
