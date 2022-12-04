@@ -1,4 +1,7 @@
-# distance-calculator
+# Distance calculator  :earth_asia:
+A website app which calculates distance between two coordinates.
+
+Live demo: [https://dudziema.com/distance](https://dudziema.com/distance)
 
 ## Project setup
 ```
